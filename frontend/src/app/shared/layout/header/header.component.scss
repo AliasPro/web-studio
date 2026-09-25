@@ -1,0 +1,68 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+.header {
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    .container {
+        @include d-flex-between;
+        gap: 20px;
+
+        .logo {
+            width: 85px;
+            flex-shrink: 0;
+
+            img {
+                max-width: 100%;
+            }
+        }
+
+        .header-menu {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            color: $dark-blue-color;
+            margin-right: 157px;
+
+            ul {
+                @include d-flex-between;
+                width: 430px;
+                list-style: none;
+                padding: 0;
+
+                a {
+                    &:hover,
+                    &.active {
+                        color: $blue-color;
+                    }
+                }
+            }
+        }
+
+        .header-contacts {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            color: $blue-color;
+            flex-shrink: 0;
+        }
+
+        .header-actions {
+            //width: 230px;
+            margin-left: 20px;
+            flex-shrink: 0;
+            @include d-flex;
+
+            svg {
+                margin-right: 7px;
+            }
+
+            a {
+                color: $dark-blue-color;
+            }
+        }
+
+        .burger {
+            display: none;
+        }
+    }
+}

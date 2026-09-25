@@ -1,0 +1,123 @@
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/mixins";
+
+.footer {
+    background-color: $light-blue-color;
+    padding-top: 40px;
+    padding-bottom: 54px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+
+    .container {
+        .footer-top {
+            margin-bottom: 40px;
+            @include d-flex;
+
+            .logo {
+                width: 85px;
+                margin-right: 40px;
+
+                img {
+                    max-width: 100%;
+                }
+            }
+
+            .footer-menu {
+                font-weight: 400;
+
+                ul {
+                    @include d-flex;
+                    list-style: none;
+                    padding: 0;
+
+                    li {
+                        margin-right: 20px;
+                    }
+                }
+            }
+        }
+
+        .footer-middle {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+            gap: 60px;
+
+            .footer-middle-item-head {
+                font-weight: 500;
+                color: $blue-color;
+                margin-bottom: 10px;
+            }
+
+            .footer-middle-item-body {
+                font-weight: 400;
+                color: $dark-blue-color;
+                max-width: 260px;
+                display: flex;
+
+                &.phone {
+                    flex-direction: column;
+                }
+
+                &.social-media {
+                    gap: 12px;
+
+                    svg {
+                        fill: $dark-blue-color;
+
+                        &:hover{
+                            fill: white;
+                        }
+                    }
+                }
+
+                .button {
+                    padding: 10px;
+                    width: 153px;
+                    font-size: 12px;
+                    font-weight: 500;
+                    margin-top: 10px;
+                }
+            }
+        }
+
+        .footer-bottom {
+            font-weight: 400;
+            color: $blue-color;
+        }
+    }
+}
+
+
+@media screen and (max-width: 1239px) {
+    .footer {
+        .container {
+            .footer-middle {
+                flex-wrap: wrap;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .footer {
+        .container {
+            .footer-top {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 459px) {
+    .footer {
+        .container {
+            .footer-top {
+                .footer-menu {
+                    display: none;
+                }
+            }
+        }
+    }
+}

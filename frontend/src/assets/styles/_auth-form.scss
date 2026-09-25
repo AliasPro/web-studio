@@ -1,0 +1,67 @@
+@import "variables";
+@import "mixins";
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    .auth-form {
+        @include auth-form;
+    }
+
+    .page-image {
+        margin-top: 123px;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
+
+@media screen and (max-width: 1023px) {
+    .container {
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .page-image {
+            margin: 0 auto;
+            order: 1;
+        }
+
+        .auth-form {
+            margin-top: 0;
+            order: 2;
+        }
+    }
+}
+
+@media screen and (max-width: 499px) {
+    .container {
+        flex-wrap: wrap;
+        justify-content: center;
+
+        .page-image {
+            margin: 0 auto;
+            order: 1;
+        }
+
+        .auth-form {
+            margin-top: 0;
+            order: 2;
+
+            .auth-title {
+                font-size: 28px;
+            }
+
+            .auth-inputs {
+                width: 100%;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    }
+}
