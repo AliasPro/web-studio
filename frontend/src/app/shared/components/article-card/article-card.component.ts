@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {ArticleType} from "../../../../types/article.type";
-import {environment} from "../../../../environments/environment";
+import { Component, Input } from '@angular/core';
+import { ArticleType } from "../../../../types/article.type";
+import { environment } from "../../../../environments/environment";
 
 @Component({
     selector: 'article-card',
@@ -9,8 +9,17 @@ import {environment} from "../../../../environments/environment";
 })
 export class ArticleCardComponent {
     serverStaticPath = environment.serverStaticPath;
-    @Input() article!: ArticleType;
+    @Input() article: ArticleType;
 
     constructor() {
+        this.article = {
+            id: '',
+            title: '',
+            description: '',
+            image: '',
+            date: '',
+            category: '',
+            url: ''
+        }
     }
 }

@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {OwlOptions} from "ngx-owl-carousel-o";
-import {ArticleService} from "../../shared/services/article.service";
-import {ArticleType} from "../../../types/article.type";
-import {HttpErrorResponse} from "@angular/common/http";
-import {StaticData} from "./static-data";
-import {ModalTypeEnum} from "../../../types/modal-type.enum";
-import {ModalService} from "../../shared/services/modal.service";
+import { Component, OnInit } from '@angular/core';
+import { OwlOptions } from "ngx-owl-carousel-o";
+import { ArticleService } from "../../shared/services/article.service";
+import { ArticleType } from "../../../types/article.type";
+import { HttpErrorResponse } from "@angular/common/http";
+import { StaticData } from "./static-data";
+import { ModalTypeEnum } from "../../../types/modal-type.enum";
+import { ModalService } from "../../shared/services/modal.service";
+import { ViewportScroller } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-main',
@@ -62,6 +64,8 @@ export class MainComponent implements OnInit {
     constructor(
         private articleService: ArticleService,
         private modalService: ModalService,
+        private viewportScroller: ViewportScroller,
+        private activatedRoute: ActivatedRoute,
     ) {
     }
 
@@ -69,6 +73,13 @@ export class MainComponent implements OnInit {
         this.articleService.getPopularArticles().subscribe({
             next: (result: ArticleType[]) => {
                 this.popularArticles = result;
+                this.activatedRoute.fragment.subscribe((fragment: string | null) => {
+                    if (fragment) {
+                        setTimeout(() => {
+                            this.viewportScroller.scrollToAnchor(fragment);
+                        }, 10);
+                    }
+                });
             },
             error: (errorResponse: HttpErrorResponse) => {
                 if (errorResponse.error && errorResponse.error.message) {

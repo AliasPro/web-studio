@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {ArticleDetailType} from "../../../../types/article-detail.type";
-import {ArticleService} from "../../../shared/services/article.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {ActivatedRoute} from "@angular/router";
-import {HttpErrorResponse} from "@angular/common/http";
-import {DefaultResponseType} from "../../../../types/default-response.type";
-import {environment} from "../../../../environments/environment";
-import {ArticleType} from "../../../../types/article.type";
-import {AuthService} from "../../../core/auth/auth.service";
-import {CommentService} from "../../../shared/services/comment.service";
-import {CommentsType} from "../../../../types/comments.type";
-import {ActionForCommentType} from "../../../../types/action-for-comment.type";
-import {LoaderService} from "../../../shared/services/loader.service";
-import {delay} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { ArticleDetailType } from "../../../../types/article-detail.type";
+import { ArticleService } from "../../../shared/services/article.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+import { DefaultResponseType } from "../../../../types/default-response.type";
+import { environment } from "../../../../environments/environment";
+import { ArticleType } from "../../../../types/article.type";
+import { AuthService } from "../../../core/auth/auth.service";
+import { CommentService } from "../../../shared/services/comment.service";
+import { CommentsType } from "../../../../types/comments.type";
+import { ActionForCommentType } from "../../../../types/action-for-comment.type";
+import { LoaderService } from "../../../shared/services/loader.service";
+import { delay } from "rxjs";
 
 @Component({
     selector: 'app-article-detail',
@@ -24,7 +24,7 @@ export class ArticleDetailComponent implements OnInit {
     readonly basicOffset = 3;
     readonly newCommentsCount = 10;
 
-    article!: ArticleDetailType;
+    article: ArticleDetailType;
     relatedArticles: ArticleType[] = [];
     isLogged: boolean = false;
     commentText: string | null = null;
@@ -41,6 +41,18 @@ export class ArticleDetailComponent implements OnInit {
         private loaderService: LoaderService,
     ) {
         this.isLogged = this.authService.isLogged;
+        this.article = {
+            id: '',
+            title: '',
+            description: '',
+            text: '',
+            image: '',
+            date: '',
+            category: '',
+            url: '',
+            commentsCount: 0,
+            comments: [],
+        }
     }
 
     ngOnInit(): void {
@@ -97,7 +109,7 @@ export class ArticleDetailComponent implements OnInit {
     }
 
     postComment(): void {
-        if (!this.commentText) {return;}
+        if (!this.commentText) { return; }
 
         this.commentService.postComment(this.article.id, this.commentText).subscribe({
             next: (result: DefaultResponseType) => {
@@ -126,32 +138,32 @@ export class ArticleDetailComponent implements OnInit {
                 delay(2000)  // Для демонстрации loader
             )
             .subscribe({
-            next: (result: CommentsType | DefaultResponseType) => {
-                if ((result as DefaultResponseType).error !== undefined) {
-                    throw new Error((result as DefaultResponseType).message);
-                }
-                const comments = result as CommentsType;
-                this.article.commentsCount = comments.allCount;
-                if (offset === 0) {
-                    this.article.comments = comments.comments.slice(0, this.basicOffset);
-                } else {
-                    this.article.comments = this.article.comments.concat(comments.comments);
-                }
+                next: (result: CommentsType | DefaultResponseType) => {
+                    if ((result as DefaultResponseType).error !== undefined) {
+                        throw new Error((result as DefaultResponseType).message);
+                    }
+                    const comments = result as CommentsType;
+                    this.article.commentsCount = comments.allCount;
+                    if (offset === 0) {
+                        this.article.comments = comments.comments.slice(0, this.basicOffset);
+                    } else {
+                        this.article.comments = this.article.comments.concat(comments.comments);
+                    }
 
-                if (this.isLogged) {
-                    this.getCommentActions();
-                }
+                    if (this.isLogged) {
+                        this.getCommentActions();
+                    }
 
-                this.loaderService.hide();
-            },
-            error: (errorResponse: HttpErrorResponse) => {
-                if (errorResponse.error && errorResponse.error.message) {
-                    this._snackBar.open(errorResponse.error.message, 'Закрыть');
-                } else {
-                    this._snackBar.open('Ошибка получения комментариев', 'Закрыть');
+                    this.loaderService.hide();
+                },
+                error: (errorResponse: HttpErrorResponse) => {
+                    if (errorResponse.error && errorResponse.error.message) {
+                        this._snackBar.open(errorResponse.error.message, 'Закрыть');
+                    } else {
+                        this._snackBar.open('Ошибка получения комментариев', 'Закрыть');
+                    }
                 }
-            }
-        });
+            });
     }
 
     getMoreComments() {
